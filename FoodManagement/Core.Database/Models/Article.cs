@@ -21,7 +21,7 @@ namespace Core.Database.Models
         public DateTime? CreatedOn { get; set; }
         public Guid? ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
-        public string? KeyWord { get ; set ; }
-        public string? Description { get ; set ; }
+        public string? KeyWord { get; set; }
+        public string? Description { get; set; }
     }
 }

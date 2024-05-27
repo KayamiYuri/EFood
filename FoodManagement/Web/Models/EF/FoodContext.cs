@@ -5,7 +5,7 @@ namespace Web.Models.EF
 {
     public class FoodContext : DbContext
     {
-        public FoodContext (DbContextOptions<FoodContext> options) : base(options) {}
+        public FoodContext(DbContextOptions<FoodContext> options) : base(options) { }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Authorized> Authorizeds { get; set; }
         public DbSet<Category> Categories { get; set; }
