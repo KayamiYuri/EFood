@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Nhom Quyen";
+    Layout = "~/Areas/Admin/Views/Shared/_Admin.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">@ViewBag.Title</h1>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body table-responsive">
+        <table id="items" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Ten Nhom</th>
+                    <th style="width: 40px"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Css {
+    <link href="~/plugins/datatables-bs4/css/datatables.bootstrap4.min.css" rel="stylesheet" />
+    <style>
+        div.dt-buttons {
+            float: right;
+        }
+    </style>
+}
+@section Js {
+    <script src="~/plugins/datatables/jquery.datatables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/datatables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script>
+        $(function () {
+            var items = $("#items").DataTable({
+                "dom": "Blfrtip",
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "/Admin/Group/GetList",
+                    "type": "POST",
+                    "dataType": "json"
+                },
+                "columns": [
+                    {
+                        "data": null, "render": function (data, type, row, meta) { return meta.row + 1; }
+                    },
+                    {
+                        "data": "name"
+                    },
+                    {
+                        "data": null, "render": function (data, type, row, meta) {
+                            let tool = '<div class="btn-group">' +
+                                '<a href="#" data-toggle="dropdown" class="list-icons-item text-dark" aria-expanded="false">' +
+                                '<i class="fas fa-sort-amount-down"></i>' +
+                                '</a>' +
+                                '<div class="dropdown-menu" role="menu" style="">' +
+                                '<a class="dropdown-item text-primary btnEdit" href="#" data-id="' + row.id + '"><i class="fas fa-pencil-alt mr-3"></i>Cập nhat</a>' +
+                                '<a class="dropdown-item text-danger btnDelete" href="#" data-id="' + row.id + '"><i class="fas fa-trash mr-3"></i>Xoa</a>' +
+                                '</div>' + '</div>'
+                                ;
+                            return tool;
+                        }
+                    }
+                ],
+                "buttons": [
+                    {
+                        text: '<i class="fa fa-plus mr-2"></i>Them nhom',
+                        className: 'btn btn-info pb-1',
+                        action: function (e, dt, node, config) {
+
+                            //TODO: add new group
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}

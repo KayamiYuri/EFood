@@ -42,9 +42,9 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link">
-                <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                <img src="img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                     style="opacity: .8">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
+                <span class="brand-text font-weight-light">Tea House</span>
             </a>
 
             <!-- Sidebar -->
@@ -52,10 +52,10 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        <a href="#" class="d-block">Yuri</a>
                     </div>
                 </div>
 
@@ -79,31 +79,107 @@
                         <!-- Add icons to the links using the .nav-icon class
                              with font-awesome or any other icon font library -->
                         <li class="nav-item menu-open">
-                            <a href="#" class="nav-link active">
+                            <a href="@Url.Action("Index", "Home", new {area  = "Admin"})" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Dashboard
-                                    <i class="right fas fa-angle-left"></i>
+                                    Trang chu
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview">
+                        </li>
+                        @* Danh Muc *@
+                        <li class="nav-item menu-is-opening menu-open">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-copy"></i>
+                                <p>
+                                    Danh Muc
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" style="display: block;">
                                 <li class="nav-item">
-                                    <a href="./index.html" class="nav-link active">
+                                    <a href="@Url.Action("Index", "Category", new {area  = "Admin"})" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v1</p>
+                                        <p>Chuyen Muc</p>
                                     </a>
-                                    <a href="./index.html" class="nav-link">
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Product", new {area  = "Admin"})" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v2</p>
+                                        <p>San Pham</p>
                                     </a>
-                                    <a href="./index.html" class="nav-link">
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Article", new {area  = "Admin"})" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v2</p>
+                                        <p>Tin Tuc</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        @* Nghiep Vu *@
+                        <li class="nav-item menu-is-opening menu-open">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-tv"></i>
+                                <p>
+                                    Nghiep Vu
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" style="display: block;">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Order", new {area  = "Admin"})" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Don dat hang</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        @* Thong Ke *@
+                        <li class="nav-item menu-is-opening menu-open">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-chart-pie"></i>
+                                <p>
+                                    Thong Ke
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" style="display: block;">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("IncomeByMouth", "Report", new {area  = "Admin"})"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Doanh Thu Theo Thang</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        @* He Thong *@
+                        <li class="nav-item menu-is-opening menu-open">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-cogs"></i>
+                                <p>
+                                    He thong
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" style="display: block;">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Group", new {area  = "Admin"})" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Nhom Quyen</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Member", new {area  = "Admin"})" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Thanh Vien</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
                     </ul>
+
+
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
@@ -117,12 +193,11 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Dashboard</h1>
+                            <h1 class="m-0">@ViewBag.Title</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard v1</li>
+                                <li class="breadcrumb-item"><a href="#">Trang Chu</a></li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
