@@ -3,17 +3,18 @@ using Web.Areas.Admin.Models;
 using Web.Models.EF;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
+using Core.Database.Models;
 
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class GroupController : Controller
     {
-        private readonly FoodContext _dbcontext;
+        private readonly FoodContext _dbContext;
 
-        public GroupController(FoodContext dbcontext)
+        public GroupController(FoodContext dbContext)
         {
-            _dbcontext = dbcontext;
+            _dbContext = dbContext;
         }
         public IActionResult Index()
         {
@@ -21,9 +22,9 @@ namespace Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetList(JDatatable model)
+        public async Task<IActionResult> getList(JDatatable model)
         {
-            var items = (from i in _dbcontext.Groups select i);
+            var items = (from i in _dbContext.Groups select i);
             int recordsTotal = 0;
             if (!string.IsNullOrEmpty(model.columns[model.order[0].column].name) && !string.IsNullOrEmpty(model.order[0].dir))
             {
@@ -43,6 +44,46 @@ namespace Web.Areas.Admin.Controllers
 
             var jsonData = new { draw = model.draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
             return Ok(jsonData);
+        }
+        [HttpGet]
+        public async Task<IActionResult> getItem(Guid id)
+        {
+            if (_dbContext.Groups == null)
+                return NotFound();
+            var item = await _dbContext.Groups.FindAsync(id);
+            if (item == null)
+                return NotFound();
+            return Ok(item);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Save(GroupViewModel model)
+        {
+            Group item;
+            if (model.Id == null)
+            {
+                item = new Core.Database.Models.Group();
+                item.Id = Guid.NewGuid();
+                await _dbContext.Groups.AddAsync(item);
+            } else
+            {
+                item = await _dbContext.Groups.FindAsync(model.Id);
+            }
+            item.Name = model.Name;
+            await _dbContext.SaveChangesAsync();
+            return Ok(item);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var memberInGroup = await _dbContext.Members.Where(m => m.GroupId == id).FirstOrDefaultAsync();
+            if (memberInGroup == null)
+            {
+                var item = await _dbContext.Groups.FindAsync(id);
+                _dbContext.Entry(item).State = EntityState.Deleted;
+                await _dbContext.SaveChangesAsync();
+                return Ok(true);
+            }
+            return Ok(false);
         }
     }
 }
