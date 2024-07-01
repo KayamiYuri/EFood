@@ -1,5 +1,5 @@
-﻿@{
-    ViewBag.Title = "Nhom Quyen";
+@{
+    ViewBag.Title = "Member";
     Layout = "~/Areas/Admin/Views/Shared/_Admin.cshtml";
 }
 <div class="card">
@@ -12,7 +12,10 @@
             <thead>
                 <tr>
                     <th style="width: 10px">#</th>
-                    <th>Name Group</th>
+                    <th width="100px">Avatar</th>
+                    <th>Name Member</th>
+                    <th>Group</th>
+                    <th>Recent Access</th>
                     <th style="width: 40px">Action</th>
                 </tr>
             </thead>
@@ -35,9 +38,39 @@
             <div class="modal-body">
                 <form id="Item">
                     <input type="hidden" id="Id" name="Id" />
+                    @* Name *@
                     <div class="form-group">
-                        <label for="Name">Name Group</label>
+                        <label for="Name">Name Member</label>
                         <input type="text" class="form-control" id="Name" name="Name" />
+                    </div>
+                    @* Avatar *@
+                    <div class="form-group">
+                        <label for="Picture">Avatar</label>
+                        <input type="file" class="form-control" id="Picture" name="Picture" />
+                        <img id="user-picture" style="display: none" src="#" alt="Avatar" />
+
+                    </div>
+                    @* UserName *@
+                    <div class="form-group">
+                        <label for="LoginName">User Name</label>
+                        <input type="text" class="form-control" id="LoginName" name="LoginName" />
+                    </div>
+                    @* Passworld *@
+                    <div class="form-group">
+                        <label for="Password">Password</label>
+                        <input type="password" class="form-control" id="Password" name="Password" />
+                    </div>
+                    @* Email *@
+                    <div class="form-group">
+                        <label for="Email">Email</label>
+                        <input type="email" class="form-control" id="Email" name="Email" />
+                    </div>
+                    @* Group *@ 
+                    <div class="form-group">
+                        <label for="GroupId">Group</label>
+                        <select id="GroupId" name="GroupId" class="form-control">
+                            <option value=""> --- Chon ---</option>
+                        </select>
                     </div>
                 </form>
             </div>
@@ -55,9 +88,16 @@
 @section Css {
     <link href="~/plugins/datatables-bs4/css/datatables.bootstrap4.min.css" rel="stylesheet" />
     <link href="~/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <script src="~/plugins/moment/moment.min.js"></script>
     <style>
         div.dt-buttons {
             float: right;
+        }
+
+        img.user-img, #user-picture {
+            width: 100px;
+            height: 100px;
+            border-radius: 5%;
         }
     </style>
 }
@@ -76,7 +116,7 @@
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    "url": "/Admin/Group/GetList",
+                    "url": "/Admin/Member/GetList",
                     "type": "POST",
                     "dataType": "json"
                 },
@@ -84,8 +124,27 @@
                     {
                         "data": null, "render": function (data, type, row, meta) { return meta.row + 1; }
                     },
+                    // {
+                    //     "render": function (data, type, row, meta) {
+                    //         return "<img src='" + row.picture + "' /> " + row.name;
+                    //     }
+                    // },
+                    {
+                        "render": function (data, type, row, meta) {
+                            return "<img class='user-img' src='" + row.picture + "' /> ";
+                        }
+                    },
                     {
                         "data": "name"
+                    },
+                   
+                    {
+                        "data": "groupName"
+                    },
+                    {
+                        "data": "lastLogin", "render": function (data, type, row, meta) {
+                            return moment(data).isValid() ? moment(data).format("MM/DD/YYYY") : "Chưa đăng nhập";
+                        }
                     },
                     {
                         // "data": null, 
@@ -106,34 +165,54 @@
                 ],
                 "buttons": [
                     {
-                        text: '<i class="fa fa-plus mr-2"></i>Add Group',
+                        text: '<i class="fa fa-plus mr-2"></i>Add Member',
                         className: 'btn btn-info pb-1',
                         action: function (e, dt, node, config) {
                             $("#modal-default form#Item")[0].reset();
-                            $("Id").val(""); //Xac dinh chuc nang add or xoa
+                            $("#Id").val(""); //Xac dinh chuc nang add or xoa
+                            $("#user-picture").attr("src", '').hide();
                             $("#modal-default").modal('show');
                         }
                     }
                 ]
             });
-
+            // Button Edit
             $(document).on("click", "a.btnEdit", function () {
                 let id = $(this).data("id");
-                $.getJSON("/Admin/Group/GetItem",
+                $.getJSON("/Admin/Member/GetItem",
                     {
-                        id: id
+                        id: id 
                     }, function (item) {
                         $("#Id").val(item.id);
                         $("#Name").val(item.name);
+                        $("#user-picture").attr("src", item.picture).show(); 
+                        $("#LoginName").val(item.loginName);
+                        $("#Email").val(item.email);
+                        $("#GroupId").val(item.groupId).change();
                         $("#modal-default").modal('show');
                     });
             });
+            //Get list Group Member
+            $.getJSON("/Admin/Group/GetList",
+                {},
+                function (data) {
+                    data.forEach((item) => {
+                        var o = new Option(item.name, item.id);
+                        $("#GroupId").append(o);
+
+                })
+                });
+            //Button Save
             $(".btnSave").click(function () {
+                var form = $("#Item")[0];
+                var formData = new FormData(form);
+                var file = $('input[type=file]')[0].files[0];
                 $.ajax({
-                    data: $("#Item").serialize(),
-                    url: "/Admin/Group/Save",
+                    data: formData,
+                    url: "/Admin/Member/Save",
                     type: "POST",
-                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    processData: false,
+                    contentType: false,
                     success: function (item) {
                         $("#modal-default").modal('hide');
                         toastr.success("Save success !!");
@@ -141,6 +220,7 @@
                     }
                 })
             })
+            //Button Delete
             $(document).on('click', "a.btnDelete", function () {
                 let id = $(this).data("id");
                 Swal.fire({
@@ -153,14 +233,14 @@
                     cancelButtonText: 'Cancel'
                 }).then(function (result) {
                     if (result.isConfirmed) {
-                        $.get("/Admin/Group/Delete", {
+                        $.get("/Admin/Member/Delete", {
                             id: id
                         }, function (data) {
                             if (data == true) {
-                                toastr.success("Thong bao: Xoa nhom quyen thanh cong.");
+                                toastr.success("Thong bao: Xoa Member thanh cong.");
                                 items.ajax.reload();
                             } else {
-                                toastr.error('Lỗi: Kiểm tra lại rang buoc toan ven của nhom quyen.')
+                                toastr.error('Lỗi: Kiểm tra lại rang buoc toan ven của Member.')
                             }
                         })
                     }

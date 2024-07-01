@@ -20,7 +20,8 @@ namespace Core.Database.Models
         public string? Password { get; set; }
         [MaxLength(150)]
         public string? Email { get; set; }
-        public DateTime LastLogin { get; set; }
+        //public DateTime? LastLogin { get; set; } //Cho Phep null
+        public DateTime LastLogin { get; set; } //Cho Phep null
         public Guid? CreatedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
         public Guid? ModifiedBy { get; set; }

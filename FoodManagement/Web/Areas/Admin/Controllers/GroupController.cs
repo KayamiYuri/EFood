@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Web.Areas.Admin.Models;
 using Web.Models.EF;
 using System.Linq.Dynamic.Core;
-using Microsoft.EntityFrameworkCore;
 using Core.Database.Models;
 
 namespace Web.Areas.Admin.Controllers
@@ -45,7 +45,16 @@ namespace Web.Areas.Admin.Controllers
             var jsonData = new { draw = model.draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
             return Ok(jsonData);
         }
+        //Lay danh sach group de hien thi tren combobox trong member
         [HttpGet]
+        public async Task<IActionResult> getList()
+        {
+
+            var items = (from i in _dbContext.Groups select i);
+            var data = await items.Select(i => new { i.Id, i.Name }).ToListAsync();
+            return Ok(data); 
+        }
+         [HttpGet]
         public async Task<IActionResult> getItem(Guid id)
         {
             if (_dbContext.Groups == null)
@@ -64,7 +73,8 @@ namespace Web.Areas.Admin.Controllers
                 item = new Core.Database.Models.Group();
                 item.Id = Guid.NewGuid();
                 await _dbContext.Groups.AddAsync(item);
-            } else
+            }
+            else
             {
                 item = await _dbContext.Groups.FindAsync(model.Id);
             }
