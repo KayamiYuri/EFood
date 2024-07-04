@@ -5,6 +5,9 @@ using Web.Models.EF;
 using System.Linq.Dynamic.Core;
 using Core.Database.Models;
 using System;
+using System.Security.Cryptography;
+using System.Text;
+using Web.Areas.Admin.Extensions;
 
 
 namespace Web.Areas.Admin.Controllers
@@ -121,6 +124,49 @@ namespace Web.Areas.Admin.Controllers
                 return Ok(true);
             }
             return Ok(false);
+        }
+        
+        //Trang Login
+        [HttpGet] //Day la ham mac dinh khong can them cung duoc    
+        public IActionResult Login()
+        {
+            return View();
+        }
+        //Login
+        [HttpPost]
+        public IActionResult Login(LoginViewModel item)
+        {
+            string md5Password = MD5Hash(item.Password);
+            var member = _dbContext.Members.Where(m => m.LoginName == item.LoginName && m.Password == md5Password).FirstOrDefault();
+            if (member != null)
+            {
+                HttpContext.Session.SetObject("Member", member);
+                return RedirectToAction("Index", "Home"); 
+            } 
+            return RedirectToAction("Login", "Member");
+        }
+        //Logout
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("Member"); //Code AI
+            return RedirectToAction("Index", "Home", new {area = ""});
+        }
+
+        //Ham ma hoa md5 
+        public string MD5Hash(string text)
+        {
+            MD5 md5H = MD5.Create();
+            //convert the input string to a byte array and compute its hash
+            byte[] data = md5H.ComputeHash(Encoding.UTF8.GetBytes(text));
+            // create a new stringbuilder to collect the bytes and create a string
+            StringBuilder sB = new StringBuilder();
+            //loop through each byte of hashed data and format each one as a hexadecimal string
+            for (int i = 0; i < data.Length; i++)
+            {
+                sB.Append(data[i].ToString("x2"));
+            }
+            //return hexadecimal string
+            return sB.ToString();
         }
     }
 }
