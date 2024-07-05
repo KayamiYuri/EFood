@@ -8,6 +8,8 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 using Web.Areas.Admin.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using Web.Areas.Admin.Attributes;
 
 
 namespace Web.Areas.Admin.Controllers
@@ -28,6 +30,7 @@ namespace Web.Areas.Admin.Controllers
         //{
         //    _dbContext = dbContext;
         //}
+        [Authorized(Code = "view-members")]
         [HttpPost]
         public async Task<IActionResult> getList(JDatatable model)
         {
@@ -61,6 +64,7 @@ namespace Web.Areas.Admin.Controllers
         }
         //Cac nut chuc nang
         //Lay danh sach group de hien thi tren combobox trong member
+        [Authorized(Code = "edit-member")]
         [HttpGet]
         public async Task<IActionResult> getItem(Guid id)
         {
@@ -72,6 +76,7 @@ namespace Web.Areas.Admin.Controllers
             return Ok(item);
         }
         //Nut Save
+        [Authorized(Code = "save-member")]
         [HttpPost]
         public async Task<IActionResult> Save(MemberViewModel model, IFormFile Picture)
         {
@@ -112,6 +117,7 @@ namespace Web.Areas.Admin.Controllers
             return Ok(item);
         }
         //Nut Delete
+        [Authorized(Code = "delete-member")]
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -141,6 +147,9 @@ namespace Web.Areas.Admin.Controllers
             if (member != null)
             {
                 HttpContext.Session.SetObject("Member", member);
+                //Kiem tra quyen cua user
+                var codes = _dbContext.Authorizeds.Where(a => a.GroupId == member.GroupId).Select(a => a.Role.Code).ToList();
+                HttpContext.Session.SetObject("codes", codes);
                 return RedirectToAction("Index", "Home"); 
             } 
             return RedirectToAction("Login", "Member");

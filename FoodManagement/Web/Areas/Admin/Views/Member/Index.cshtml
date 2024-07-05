@@ -118,7 +118,10 @@
                 "ajax": {
                     "url": "/Admin/Member/GetList",
                     "type": "POST",
-                    "dataType": "json"
+                    "dataType": "json",
+                    "error": function (xhr, error, code) {
+                        toastr.error("Error: Khong co quyen truy cap chuc nang nay");
+                    }
                 },
                 "columns": [
                     {
@@ -190,6 +193,8 @@
                         $("#Email").val(item.email);
                         $("#GroupId").val(item.groupId).change();
                         $("#modal-default").modal('show');
+                    }).fail(function () {
+                        toastr.error("Error: Khong co quyen truy cap chuc nang nay");
                     });
             });
             //Get list Group Member
@@ -217,6 +222,9 @@
                         $("#modal-default").modal('hide');
                         toastr.success("Save success !!");
                         items.ajax.reload();
+                    },
+                    error: function () {
+                        toastr.error("Error: Khong co quyen truy cap chuc nang nay");
                     }
                 })
             })
@@ -242,7 +250,9 @@
                             } else {
                                 toastr.error('Lỗi: Kiểm tra lại rang buoc toan ven của Member.')
                             }
-                        })
+                        }).fail(function () {
+                            toastr.error("Error: Khong co quyen truy cap chuc nang nay");
+                        });
                     }
                 })
             })

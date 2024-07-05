@@ -4,6 +4,7 @@ using Web.Areas.Admin.Models;
 using Web.Models.EF;
 using System.Linq.Dynamic.Core;
 using Core.Database.Models;
+using Web.Areas.Admin.Attributes;
 
 namespace Web.Areas.Admin.Controllers
 {
@@ -20,7 +21,7 @@ namespace Web.Areas.Admin.Controllers
         {
             return View();
         }
-
+        [Authorized(Code = "view-groups")]
         [HttpPost]
         public async Task<IActionResult> getList(JDatatable model)
         {
@@ -54,7 +55,8 @@ namespace Web.Areas.Admin.Controllers
             var data = await items.Select(i => new { i.Id, i.Name }).ToListAsync();
             return Ok(data); 
         }
-         [HttpGet]
+        [Authorized(Code = "edit-group")]
+        [HttpGet]
         public async Task<IActionResult> getItem(Guid id)
         {
             if (_dbContext.Groups == null)
@@ -64,6 +66,7 @@ namespace Web.Areas.Admin.Controllers
                 return NotFound();
             return Ok(item);
         }
+        [Authorized(Code = "save-group")]
         [HttpPost]
         public async Task<IActionResult> Save(GroupViewModel model)
         {
@@ -82,6 +85,7 @@ namespace Web.Areas.Admin.Controllers
             await _dbContext.SaveChangesAsync();
             return Ok(item);
         }
+        [Authorized(Code = "delete-group")]
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
