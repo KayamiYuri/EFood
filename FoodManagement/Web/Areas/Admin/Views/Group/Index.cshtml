@@ -1,7 +1,8 @@
 ﻿@{
-    ViewBag.Title = "Nhom Quyen";
+    ViewBag.Title = "Nhóm quyền";
     Layout = "~/Areas/Admin/Views/Shared/_Admin.cshtml";
 }
+
 <div class="card">
     <div class="card-header">
         <h1 class="card-title">@ViewBag.Title</h1>
@@ -12,17 +13,14 @@
             <thead>
                 <tr>
                     <th style="width: 10px">#</th>
-                    <th>Name Group</th>
-                    <th style="width: 40px">Action</th>
+                    <th>Tên nhóm</th>
+                    <th style="width: 40px"></th>
                 </tr>
             </thead>
-            <tbody>
-
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
 </div>
-
 <div class="modal fade" id="modal-default">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -36,25 +34,45 @@
                 <form id="Item">
                     <input type="hidden" id="Id" name="Id" />
                     <div class="form-group">
-                        <label for="Name">Name Group</label>
+                        <label for="Name">Tên nhóm quyền</label>
                         <input type="text" class="form-control" id="Name" name="Name" />
                     </div>
                 </form>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btnSave" data-toggle="modal"
-                    data-target="#modal-default">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary btnSave">Lưu</button>
             </div>
         </div>
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
+<div class="modal fade" id="modal-authorized">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Phân quyền</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="GroupId" name="GroupId" />
+                <select id="CategoryId" name="CategoryId" class="form-control">
+                    <option value="">--- Chọn nhóm quyền ---</option>
+                </select>
+                <div id="RoleList"></div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 @section Css {
-    <link href="~/plugins/datatables-bs4/css/datatables.bootstrap4.min.css" rel="stylesheet" />
-    <link href="~/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="/plugins/datatables-bs4/css/datatables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="/plugins/sweetarlert2/sweetalert2.min.css" rel="stylesheet" />
     <style>
         div.dt-buttons {
             float: right;
@@ -62,13 +80,16 @@
     </style>
 }
 @section Js {
-    <script src="~/plugins/datatables/jquery.datatables.min.js"></script>
-    <script src="~/plugins/datatables-bs4/js/datatables.bootstrap4.min.js"></script>
-    <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/plugins/datatables/jquery.datatables.min.js"></script>
+    <script src="/plugins/datatables-bs4/js/datatables.bootstrap4.min.js"></script>
+    <script src="/plugins/datatables-buttons/js/datatables.buttons.min.js"></script>
+    <script src="/plugins/toastr/toastr.min.js"></script>
+    <script src="/plugins/sweetarlert2/sweetalert2.all.min.js"></script>
 
-    <script src="~/plugins/toastr/toastr.min.js"></script>
+
+
+
+
     <script>
         $(function () {
             var items = $("#items").DataTable({
@@ -80,7 +101,7 @@
                     "type": "POST",
                     "dataType": "json",
                     "error": function (xhr, error, code) {
-                        toastr.error("Error: Khong co quyen truy cap chuc nang nay");
+                        toastr.error("Lỗi: Không có quyền truy cập chức năng này.");
                     }
                 },
                 "columns": [
@@ -91,35 +112,34 @@
                         "data": "name"
                     },
                     {
-                        // "data": null, 
                         "render": function (data, type, row, meta) {
-                            let tool =
-                                '<div class="btn-group">' +
-                                '<a class="text-primary btnEdit" href="#" data-id="' + row.id + '">' +
-                                '<i class="fas fa-pencil-alt mr-3"></i>' +
+                            let tool = '<div class="btn-group">' +
+                                '<a href="#" data-toggle="dropdown" class="list-icons-item text-dark" aria-expanded="false">' +
+                                '<i class="fas fa-sort-amount-down"></i>' +
                                 '</a>' +
-                                '<a class="text-danger btnDelete" href="#" data-id="' + row.id + '">' +
-                                '<i class="fas fa-trash mr-3"></i>' +
-                                '</a>' +
+                                '<div class="dropdown-menu" role="menu" style="">' +
+                                '<a class="dropdown-item text-primary btnEdit" href="#" data-id="' + row.id + '"><i class="fas fa-pencil-alt mr-3"></i>Cập nhật</a>' +
+                                '<a class="dropdown-item text-danger btnDelete "  href="#" data-id="' + row.id + '"><i class="fas fa-trash mr-3"></i>Xóa</a>' +
+                                '<div class="dropdown-divider"></div>' +
+                                '<a class="dropdown-item text-warning btnAuthorized" href="#" data-id="' + row.id + '"><i class="fa fa-unlock-alt mr-3"></i>Phân quyền</a>' +
+                                '</div>' +
                                 '</div>';
-
                             return tool;
                         }
                     }
                 ],
                 "buttons": [
                     {
-                        text: '<i class="fa fa-plus mr-2"></i>Add Group',
+                        text: '<i class="fa fa-plus mr-2"></i>Thêm nhóm',
                         className: 'btn btn-info pb-1',
                         action: function (e, dt, node, config) {
                             $("#modal-default form#Item")[0].reset();
-                            $("Id").val(""); //Xac dinh chuc nang add or xoa
+                            $("#Id").val("");
                             $("#modal-default").modal('show');
                         }
                     }
                 ]
             });
-            //Button Edit
             $(document).on("click", "a.btnEdit", function () {
                 let id = $(this).data("id");
                 $.getJSON("/Admin/Group/GetItem",
@@ -130,10 +150,9 @@
                         $("#Name").val(item.name);
                         $("#modal-default").modal('show');
                     }).fail(function () {
-                        toastr.error("Error: Khong co quyen truy cap chuc nang nay");
+                        toastr.error("Lỗi: Không có quyền truy cập chức năng này.");
                     });
-            });
-            //Button Save
+            })
             $(".btnSave").click(function () {
                 $.ajax({
                     data: $("#Item").serialize(),
@@ -142,42 +161,93 @@
                     contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                     success: function (item) {
                         $("#modal-default").modal('hide');
-                        toastr.success("Save success !!");
+                        toastr.success("Thông báo: Lưu thành công !!");
                         items.ajax.reload();
                     },
                     error: function () {
-                        toastr.error("Error: Khong co quyen truy cap chuc nang nay");
+                        toastr.error("Lỗi: Không có quyền truy cập chức năng này.");
                     }
                 })
             })
+
+
             $(document).on('click', "a.btnDelete", function () {
                 let id = $(this).data("id");
                 Swal.fire({
                     title: 'Bạn chắc không?',
-                    text: "Xoa khong the phuc hoi được !",
+                    text: "Xóa không thể phục hồi được !",
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Confirm',
-                    cancelButtonText: 'Cancel'
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
                 }).then(function (result) {
                     if (result.isConfirmed) {
-                        $.get("/Admin/Group/Delete", {
-                            id: id
-                        }, function (data) {
-                            if (data == true) {
-                                toastr.success("Thong bao: Xoa nhom quyen thanh cong.");
-                                items.ajax.reload();
-                            } else {
-                                toastr.error('Lỗi: Kiểm tra lại rang buoc toan ven của nhom quyen.')
-                            }
-                        }).fail(function () {
-                            toastr.error("Error: Khong co quyen truy cap chuc nang nay");
-                        });
+
+
+                        $.get("/Admin/Group/Delete",
+                            {
+                                id: id
+                            }, function (data) {
+                                if (data == true) {
+                                    toastr.success('Thông báo: Xóa người dùng thành công.');
+                                    items.ajax.reload();
+                                } else {
+                                    toastr.error('Lỗi: Kiểm tra lại ràng buộc toàn vẹn của người dùng.')
+                                }
+                            }).fail(function () {
+                                toastr.error("Lỗi: Không có quyền truy cập chức năng này.");
+                            })
                     }
                 })
             })
-        });
 
+            function LoadCategory() {
+                if ($('#CategoryId > option').length <= 1) {
+                    $.getJSON("/Admin/Category/GetChild", {
+                        parentId: "def472c2-1590-4b8d-afff-b84e42b0bbe2"
+                    }, function (categories) {
+                        categories.forEach((item) => {
+                            var o = new Option(item.name, item.id);
+                            $("#CategoryId").append(o);
+                        })
+                    })
+                }
+            }
+            $(document).on("click", "a.btnAuthorized", function () {
+                let id = $(this).data("id");
+                $("#GroupId").val(id);
+                LoadCategory();
+                $("#modal-authorized").modal('show');
+            });
+            $("#CategoryId").change(function () {
+                let CategoryId = $(this).val();
+                let GroupId = $("#GroupId").val();
+                $.getJSON("/Admin/Role/GetAllByCategory", {
+                    CategoryId: CategoryId,
+                    GroupId: GroupId
+                }, function (roles) {
+                    $("#RoleList").html("");
+                    roles.forEach((item) => {
+                        $('<div class="custom-control custom-switch">' +
+                            '<input type="checkbox" class="custom-control-input Role" ' + (item.groupId == GroupId ? "checked" : "") + ' id="' + item.id + '" data-id="' + item.id + '">' +
+                            '<label class="custom-control-label" for="' + item.id + '">' + item.name + '</label>' +
+                            '</div>').appendTo($("#RoleList"));
+                    });
+                })
+            });
+            $(document).on("change", "input.Role", function () {
+                let RoleId = $(this).data("id");
+                let GroupId = $("#GroupId").val();
+                $.get("/Admin/Authorized/Save", {
+                    GroupId: GroupId,
+                    RoleId: RoleId
+                }, function (data) {
+                    toastr.success('Thông báo: Cập nhật quyền thành công.');
+                }).fail(function () {
+                    toastr.error('Lỗi: Không có quyền truy cập chức năng này.');
+                })
+            });
+        });
     </script>
 }

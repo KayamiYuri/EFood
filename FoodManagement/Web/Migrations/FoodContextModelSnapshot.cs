@@ -17,7 +17,7 @@ namespace Web.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "9.0.0-preview.4.24267.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -86,6 +86,32 @@ namespace Web.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Authorized");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ca38b03a-e953-409b-b902-75d8401a7aa6"),
+                            GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
+                            RoleId = new Guid("1ef67211-920b-48b6-a9df-512c6ec85ef1")
+                        },
+                        new
+                        {
+                            Id = new Guid("e9208d86-6e02-4e07-a155-1274eb0107b8"),
+                            GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
+                            RoleId = new Guid("69ad0aba-087c-48b0-a7ed-83d7cc9342fb")
+                        },
+                        new
+                        {
+                            Id = new Guid("d963d1ba-7ff6-47e6-a770-e80bd35b7b4b"),
+                            GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
+                            RoleId = new Guid("614baaa4-3b04-4864-a971-ea62da5e24b0")
+                        },
+                        new
+                        {
+                            Id = new Guid("f86b30d3-d0a3-4ae7-b101-3d2d36e28521"),
+                            GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
+                            RoleId = new Guid("42d9af50-88e4-46df-9392-e1ea60884c2e")
+                        });
                 });
 
             modelBuilder.Entity("Core.Database.Models.Category", b =>
@@ -119,6 +145,47 @@ namespace Web.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Category");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("357ab6ba-b001-4faa-a151-bb3da1489453"),
+                            CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
+                            CreatedOn = new DateTime(2024, 8, 10, 16, 20, 40, 291, DateTimeKind.Local).AddTicks(9996),
+                            Name = "Root"
+                        },
+                        new
+                        {
+                            Id = new Guid("def472c2-1590-4b8d-afff-b84e42b0bbe2"),
+                            CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
+                            CreatedOn = new DateTime(2024, 8, 10, 16, 20, 40, 292, DateTimeKind.Local).AddTicks(60),
+                            Name = "Authorized",
+                            ParentId = new Guid("357ab6ba-b001-4faa-a151-bb3da1489453")
+                        },
+                        new
+                        {
+                            Id = new Guid("72f3845c-ae64-4093-87ec-072b66a943d1"),
+                            CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
+                            CreatedOn = new DateTime(2024, 8, 10, 16, 20, 40, 292, DateTimeKind.Local).AddTicks(66),
+                            Name = "Nhom Quyen",
+                            ParentId = new Guid("def472c2-1590-4b8d-afff-b84e42b0bbe2")
+                        },
+                        new
+                        {
+                            Id = new Guid("51007f20-0d48-493f-b163-d6f37d3bd562"),
+                            CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
+                            CreatedOn = new DateTime(2024, 8, 10, 16, 20, 40, 292, DateTimeKind.Local).AddTicks(70),
+                            Name = "Article",
+                            ParentId = new Guid("357ab6ba-b001-4faa-a151-bb3da1489453")
+                        },
+                        new
+                        {
+                            Id = new Guid("b7fdfff4-bca6-411b-9b3e-1f1498c64f7b"),
+                            CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
+                            CreatedOn = new DateTime(2024, 8, 10, 16, 20, 40, 292, DateTimeKind.Local).AddTicks(75),
+                            Name = "Product",
+                            ParentId = new Guid("357ab6ba-b001-4faa-a151-bb3da1489453")
+                        });
                 });
 
             modelBuilder.Entity("Core.Database.Models.Group", b =>
@@ -135,6 +202,13 @@ namespace Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Group");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Core.Database.Models.Member", b =>
@@ -187,6 +261,20 @@ namespace Web.Migrations
                     b.HasIndex("GroupId");
 
                     b.ToTable("Member");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
+                            CreatedOn = new DateTime(2024, 8, 10, 16, 20, 40, 291, DateTimeKind.Local).AddTicks(9950),
+                            Email = "ngoc.phuc@dla.edu.vn",
+                            GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
+                            LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LoginName = "ngoc.phuc",
+                            Name = "Nguyen Ngoc Phuc",
+                            Password = "c4ca4238a0b923820dcc509a6f75849b",
+                            Picture = "/img/users/avatar (1).png"
+                        });
                 });
 
             modelBuilder.Entity("Core.Database.Models.Product", b =>
@@ -248,6 +336,36 @@ namespace Web.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("1ef67211-920b-48b6-a9df-512c6ec85ef1"),
+                            CategoryId = new Guid("72f3845c-ae64-4093-87ec-072b66a943d1"),
+                            Code = "view-groups",
+                            Name = "Xem danh sach Nhom"
+                        },
+                        new
+                        {
+                            Id = new Guid("69ad0aba-087c-48b0-a7ed-83d7cc9342fb"),
+                            CategoryId = new Guid("72f3845c-ae64-4093-87ec-072b66a943d1"),
+                            Code = "edit-group",
+                            Name = "Cap Nhat Nhom"
+                        },
+                        new
+                        {
+                            Id = new Guid("614baaa4-3b04-4864-a971-ea62da5e24b0"),
+                            CategoryId = new Guid("72f3845c-ae64-4093-87ec-072b66a943d1"),
+                            Code = "save-group",
+                            Name = "Luu Nhom"
+                        },
+                        new
+                        {
+                            Id = new Guid("42d9af50-88e4-46df-9392-e1ea60884c2e"),
+                            CategoryId = new Guid("72f3845c-ae64-4093-87ec-072b66a943d1"),
+                            Code = "delete-group",
+                            Name = "Xoa Nhom"
+                        });
                 });
 
             modelBuilder.Entity("Core.Database.Models.Authorized", b =>

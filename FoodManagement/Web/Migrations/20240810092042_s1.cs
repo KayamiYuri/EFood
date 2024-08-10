@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Web.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDB : Migration
+    public partial class s1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -156,6 +158,58 @@ namespace Web.Migrations
                         column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Category",
+                columns: new[] { "Id", "CreatedBy", "CreatedOn", "ModifiedBy", "ModifiedOn", "Name", "ParentId" },
+                values: new object[] { new Guid("357ab6ba-b001-4faa-a151-bb3da1489453"), new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"), new DateTime(2024, 8, 10, 16, 20, 40, 291, DateTimeKind.Local).AddTicks(9996), null, null, "Root", null });
+
+            migrationBuilder.InsertData(
+                table: "Group",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"), "Admin" });
+
+            migrationBuilder.InsertData(
+                table: "Category",
+                columns: new[] { "Id", "CreatedBy", "CreatedOn", "ModifiedBy", "ModifiedOn", "Name", "ParentId" },
+                values: new object[,]
+                {
+                    { new Guid("51007f20-0d48-493f-b163-d6f37d3bd562"), new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"), new DateTime(2024, 8, 10, 16, 20, 40, 292, DateTimeKind.Local).AddTicks(70), null, null, "Article", new Guid("357ab6ba-b001-4faa-a151-bb3da1489453") },
+                    { new Guid("b7fdfff4-bca6-411b-9b3e-1f1498c64f7b"), new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"), new DateTime(2024, 8, 10, 16, 20, 40, 292, DateTimeKind.Local).AddTicks(75), null, null, "Product", new Guid("357ab6ba-b001-4faa-a151-bb3da1489453") },
+                    { new Guid("def472c2-1590-4b8d-afff-b84e42b0bbe2"), new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"), new DateTime(2024, 8, 10, 16, 20, 40, 292, DateTimeKind.Local).AddTicks(60), null, null, "Authorized", new Guid("357ab6ba-b001-4faa-a151-bb3da1489453") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Member",
+                columns: new[] { "Id", "CreatedBy", "CreatedOn", "Email", "GroupId", "LastLogin", "LoginName", "ModifiedBy", "ModifiedOn", "Name", "Password", "Picture" },
+                values: new object[] { new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"), null, new DateTime(2024, 8, 10, 16, 20, 40, 291, DateTimeKind.Local).AddTicks(9950), "ngoc.phuc@dla.edu.vn", new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ngoc.phuc", null, null, "Nguyen Ngoc Phuc", "c4ca4238a0b923820dcc509a6f75849b", "/img/users/avatar (1).png" });
+
+            migrationBuilder.InsertData(
+                table: "Category",
+                columns: new[] { "Id", "CreatedBy", "CreatedOn", "ModifiedBy", "ModifiedOn", "Name", "ParentId" },
+                values: new object[] { new Guid("72f3845c-ae64-4093-87ec-072b66a943d1"), new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"), new DateTime(2024, 8, 10, 16, 20, 40, 292, DateTimeKind.Local).AddTicks(66), null, null, "Nhom Quyen", new Guid("def472c2-1590-4b8d-afff-b84e42b0bbe2") });
+
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Id", "CategoryId", "Code", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("1ef67211-920b-48b6-a9df-512c6ec85ef1"), new Guid("72f3845c-ae64-4093-87ec-072b66a943d1"), "view-groups", "Xem danh sach Nhom" },
+                    { new Guid("42d9af50-88e4-46df-9392-e1ea60884c2e"), new Guid("72f3845c-ae64-4093-87ec-072b66a943d1"), "delete-group", "Xoa Nhom" },
+                    { new Guid("614baaa4-3b04-4864-a971-ea62da5e24b0"), new Guid("72f3845c-ae64-4093-87ec-072b66a943d1"), "save-group", "Luu Nhom" },
+                    { new Guid("69ad0aba-087c-48b0-a7ed-83d7cc9342fb"), new Guid("72f3845c-ae64-4093-87ec-072b66a943d1"), "edit-group", "Cap Nhat Nhom" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Authorized",
+                columns: new[] { "Id", "GroupId", "RoleId" },
+                values: new object[,]
+                {
+                    { new Guid("ca38b03a-e953-409b-b902-75d8401a7aa6"), new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"), new Guid("1ef67211-920b-48b6-a9df-512c6ec85ef1") },
+                    { new Guid("d963d1ba-7ff6-47e6-a770-e80bd35b7b4b"), new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"), new Guid("614baaa4-3b04-4864-a971-ea62da5e24b0") },
+                    { new Guid("e9208d86-6e02-4e07-a155-1274eb0107b8"), new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"), new Guid("69ad0aba-087c-48b0-a7ed-83d7cc9342fb") },
+                    { new Guid("f86b30d3-d0a3-4ae7-b101-3d2d36e28521"), new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"), new Guid("42d9af50-88e4-46df-9392-e1ea60884c2e") }
                 });
 
             migrationBuilder.CreateIndex(

@@ -21,6 +21,7 @@ namespace Web.Areas.Admin.Controllers
         {
             return View();
         }
+
         [Authorized(Code = "view-groups")]
         [HttpPost]
         public async Task<IActionResult> getList(JDatatable model)
@@ -53,8 +54,9 @@ namespace Web.Areas.Admin.Controllers
 
             var items = (from i in _dbContext.Groups select i);
             var data = await items.Select(i => new { i.Id, i.Name }).ToListAsync();
-            return Ok(data); 
+            return Ok(data);
         }
+
         [Authorized(Code = "edit-group")]
         [HttpGet]
         public async Task<IActionResult> getItem(Guid id)
