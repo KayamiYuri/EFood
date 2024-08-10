@@ -251,6 +251,22 @@
 
     <!-- AdminLTE App -->
     <script src="/js/adminlte.js"></script>
+
+    <!-- Show active -->
+    <script>
+        $(function () {
+            $("ul.nav-sidebar > li > a").removeClass("active");
+            let currLoc = $(location).attr('pathname');
+            $("ul.nav-sidebar > li a").each(function () {
+                let url = $(this).attr("href");
+                if (currLoc == url) {
+                    $(this).addClass("active");
+                    $(this).closest("ul.nav-treeview").closest("li").addClass("menu-open").find("> a.nav-link").addClass("active");
+                    return;
+                }
+            })
+        })
+    </script>
 </body>
 
 </html>

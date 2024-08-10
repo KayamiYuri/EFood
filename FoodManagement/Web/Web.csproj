@@ -30,4 +30,10 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="wwwroot\img\NewFolder\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="Areas\Admin\Views\Category\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
