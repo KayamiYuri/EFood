@@ -90,25 +90,25 @@ namespace Web.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ca38b03a-e953-409b-b902-75d8401a7aa6"),
+                            Id = new Guid("baf6a4af-201b-46a4-a7c4-e0243e301e90"),
                             GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
                             RoleId = new Guid("1ef67211-920b-48b6-a9df-512c6ec85ef1")
                         },
                         new
                         {
-                            Id = new Guid("e9208d86-6e02-4e07-a155-1274eb0107b8"),
+                            Id = new Guid("bf6e2b5a-2328-42f4-91f1-1c3c47c2e2dc"),
                             GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
                             RoleId = new Guid("69ad0aba-087c-48b0-a7ed-83d7cc9342fb")
                         },
                         new
                         {
-                            Id = new Guid("d963d1ba-7ff6-47e6-a770-e80bd35b7b4b"),
+                            Id = new Guid("2059e034-33c5-47ab-b91f-91f2b0320596"),
                             GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
                             RoleId = new Guid("614baaa4-3b04-4864-a971-ea62da5e24b0")
                         },
                         new
                         {
-                            Id = new Guid("f86b30d3-d0a3-4ae7-b101-3d2d36e28521"),
+                            Id = new Guid("6538e27f-0a61-4d7a-8df2-37b18f736a76"),
                             GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
                             RoleId = new Guid("42d9af50-88e4-46df-9392-e1ea60884c2e")
                         });
@@ -151,14 +151,14 @@ namespace Web.Migrations
                         {
                             Id = new Guid("357ab6ba-b001-4faa-a151-bb3da1489453"),
                             CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
-                            CreatedOn = new DateTime(2024, 8, 10, 16, 20, 40, 291, DateTimeKind.Local).AddTicks(9996),
+                            CreatedOn = new DateTime(2024, 8, 11, 16, 11, 25, 377, DateTimeKind.Local).AddTicks(904),
                             Name = "Root"
                         },
                         new
                         {
                             Id = new Guid("def472c2-1590-4b8d-afff-b84e42b0bbe2"),
                             CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
-                            CreatedOn = new DateTime(2024, 8, 10, 16, 20, 40, 292, DateTimeKind.Local).AddTicks(60),
+                            CreatedOn = new DateTime(2024, 8, 11, 16, 11, 25, 377, DateTimeKind.Local).AddTicks(906),
                             Name = "Authorized",
                             ParentId = new Guid("357ab6ba-b001-4faa-a151-bb3da1489453")
                         },
@@ -166,7 +166,7 @@ namespace Web.Migrations
                         {
                             Id = new Guid("72f3845c-ae64-4093-87ec-072b66a943d1"),
                             CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
-                            CreatedOn = new DateTime(2024, 8, 10, 16, 20, 40, 292, DateTimeKind.Local).AddTicks(66),
+                            CreatedOn = new DateTime(2024, 8, 11, 16, 11, 25, 377, DateTimeKind.Local).AddTicks(911),
                             Name = "Nhom Quyen",
                             ParentId = new Guid("def472c2-1590-4b8d-afff-b84e42b0bbe2")
                         },
@@ -174,7 +174,7 @@ namespace Web.Migrations
                         {
                             Id = new Guid("51007f20-0d48-493f-b163-d6f37d3bd562"),
                             CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
-                            CreatedOn = new DateTime(2024, 8, 10, 16, 20, 40, 292, DateTimeKind.Local).AddTicks(70),
+                            CreatedOn = new DateTime(2024, 8, 11, 16, 11, 25, 377, DateTimeKind.Local).AddTicks(915),
                             Name = "Article",
                             ParentId = new Guid("357ab6ba-b001-4faa-a151-bb3da1489453")
                         },
@@ -182,7 +182,7 @@ namespace Web.Migrations
                         {
                             Id = new Guid("b7fdfff4-bca6-411b-9b3e-1f1498c64f7b"),
                             CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
-                            CreatedOn = new DateTime(2024, 8, 10, 16, 20, 40, 292, DateTimeKind.Local).AddTicks(75),
+                            CreatedOn = new DateTime(2024, 8, 11, 16, 11, 25, 377, DateTimeKind.Local).AddTicks(950),
                             Name = "Product",
                             ParentId = new Guid("357ab6ba-b001-4faa-a151-bb3da1489453")
                         });
@@ -266,7 +266,7 @@ namespace Web.Migrations
                         new
                         {
                             Id = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
-                            CreatedOn = new DateTime(2024, 8, 10, 16, 20, 40, 291, DateTimeKind.Local).AddTicks(9950),
+                            CreatedOn = new DateTime(2024, 8, 11, 16, 11, 25, 377, DateTimeKind.Local).AddTicks(858),
                             Email = "ngoc.phuc@dla.edu.vn",
                             GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
                             LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -289,9 +289,21 @@ namespace Web.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Intro")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("ModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Picture")
                         .HasMaxLength(50)

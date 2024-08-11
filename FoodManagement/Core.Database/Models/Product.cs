@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Database.Interface;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Database.Models
 {
     [Table("Product")]
-    public class Product
+    public class Product : IAuditable
     {
         [Key]
         public Guid Id { get; set; }
@@ -20,5 +21,9 @@ namespace Core.Database.Models
         [ForeignKey("CategoryId")]
         public Guid? CategoryId { get; set; }
         public Category? Category { get; set; }
+        public Guid? CreatedBy { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public Guid? ModifiedBy { get; set; }
+        public DateTime? ModifiedOn { get; set; }
     }
 }
