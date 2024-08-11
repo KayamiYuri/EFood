@@ -151,5 +151,9 @@ namespace Web.Models.EF
         public DbSet<Member> Members { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Role> Roles { get; set; }
+        //Shop 
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Details> Details { get; set; }
     }
 }

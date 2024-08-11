@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web.Models.EF;
 
@@ -11,9 +12,11 @@ using Web.Models.EF;
 namespace Web.Migrations
 {
     [DbContext(typeof(FoodContext))]
-    partial class FoodContextModelSnapshot : ModelSnapshot
+    [Migration("20240811113633_s5")]
+    partial class s5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,25 +89,25 @@ namespace Web.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4a695010-e118-4ad7-8a0e-d7bd8536a133"),
+                            Id = new Guid("6d207995-701f-429a-a4dd-8fd550539de0"),
                             GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
                             RoleId = new Guid("1ef67211-920b-48b6-a9df-512c6ec85ef1")
                         },
                         new
                         {
-                            Id = new Guid("ca23700e-f58c-4439-b0a4-6c20c8f207fa"),
+                            Id = new Guid("9ddd495b-8e5f-448f-b1f8-9f1ef187e007"),
                             GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
                             RoleId = new Guid("69ad0aba-087c-48b0-a7ed-83d7cc9342fb")
                         },
                         new
                         {
-                            Id = new Guid("747c59ab-399d-4c8f-9e40-470543fd3910"),
+                            Id = new Guid("7f718c35-6bda-49b7-bf32-9708b18e7c0a"),
                             GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
                             RoleId = new Guid("614baaa4-3b04-4864-a971-ea62da5e24b0")
                         },
                         new
                         {
-                            Id = new Guid("13fa3400-6e4b-4f51-91a1-791fb40c6756"),
+                            Id = new Guid("1ff98313-c611-463c-888b-2699858baf3b"),
                             GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
                             RoleId = new Guid("42d9af50-88e4-46df-9392-e1ea60884c2e")
                         });
@@ -147,14 +150,14 @@ namespace Web.Migrations
                         {
                             Id = new Guid("357ab6ba-b001-4faa-a151-bb3da1489453"),
                             CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
-                            CreatedOn = new DateTime(2024, 8, 11, 21, 40, 32, 572, DateTimeKind.Local).AddTicks(681),
+                            CreatedOn = new DateTime(2024, 8, 11, 18, 36, 32, 454, DateTimeKind.Local).AddTicks(3391),
                             Name = "Root"
                         },
                         new
                         {
                             Id = new Guid("def472c2-1590-4b8d-afff-b84e42b0bbe2"),
                             CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
-                            CreatedOn = new DateTime(2024, 8, 11, 21, 40, 32, 572, DateTimeKind.Local).AddTicks(684),
+                            CreatedOn = new DateTime(2024, 8, 11, 18, 36, 32, 454, DateTimeKind.Local).AddTicks(3394),
                             Name = "Authorized",
                             ParentId = new Guid("357ab6ba-b001-4faa-a151-bb3da1489453")
                         },
@@ -162,7 +165,7 @@ namespace Web.Migrations
                         {
                             Id = new Guid("72f3845c-ae64-4093-87ec-072b66a943d1"),
                             CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
-                            CreatedOn = new DateTime(2024, 8, 11, 21, 40, 32, 572, DateTimeKind.Local).AddTicks(763),
+                            CreatedOn = new DateTime(2024, 8, 11, 18, 36, 32, 454, DateTimeKind.Local).AddTicks(3398),
                             Name = "Nhom Quyen",
                             ParentId = new Guid("def472c2-1590-4b8d-afff-b84e42b0bbe2")
                         },
@@ -170,7 +173,7 @@ namespace Web.Migrations
                         {
                             Id = new Guid("51007f20-0d48-493f-b163-d6f37d3bd562"),
                             CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
-                            CreatedOn = new DateTime(2024, 8, 11, 21, 40, 32, 572, DateTimeKind.Local).AddTicks(766),
+                            CreatedOn = new DateTime(2024, 8, 11, 18, 36, 32, 454, DateTimeKind.Local).AddTicks(3401),
                             Name = "Article",
                             ParentId = new Guid("357ab6ba-b001-4faa-a151-bb3da1489453")
                         },
@@ -178,63 +181,10 @@ namespace Web.Migrations
                         {
                             Id = new Guid("b7fdfff4-bca6-411b-9b3e-1f1498c64f7b"),
                             CreatedBy = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
-                            CreatedOn = new DateTime(2024, 8, 11, 21, 40, 32, 572, DateTimeKind.Local).AddTicks(770),
+                            CreatedOn = new DateTime(2024, 8, 11, 18, 36, 32, 454, DateTimeKind.Local).AddTicks(3405),
                             Name = "Product",
                             ParentId = new Guid("357ab6ba-b001-4faa-a151-bb3da1489453")
                         });
-                });
-
-            modelBuilder.Entity("Core.Database.Models.Customer", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LoginName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Customer");
-                });
-
-            modelBuilder.Entity("Core.Database.Models.Details", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double?>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Details");
                 });
 
             modelBuilder.Entity("Core.Database.Models.Group", b =>
@@ -315,7 +265,7 @@ namespace Web.Migrations
                         new
                         {
                             Id = new Guid("e23e4a7c-72fa-499d-8495-a4ea54377aa8"),
-                            CreatedOn = new DateTime(2024, 8, 11, 21, 40, 32, 572, DateTimeKind.Local).AddTicks(638),
+                            CreatedOn = new DateTime(2024, 8, 11, 18, 36, 32, 454, DateTimeKind.Local).AddTicks(3351),
                             Email = "ngoc.phuc@dla.edu.vn",
                             GroupId = new Guid("fec47abf-51ad-42b9-8538-286bb0ec93f1"),
                             LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -324,28 +274,6 @@ namespace Web.Migrations
                             Password = "c4ca4238a0b923820dcc509a6f75849b",
                             Picture = "/img/users/avatar (1).png"
                         });
-                });
-
-            modelBuilder.Entity("Core.Database.Models.Order", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("Core.Database.Models.Product", b =>
@@ -475,21 +403,6 @@ namespace Web.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("Core.Database.Models.Details", b =>
-                {
-                    b.HasOne("Core.Database.Models.Order", "Order")
-                        .WithMany("details")
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("Core.Database.Models.Product", "Product")
-                        .WithMany("details")
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Core.Database.Models.Member", b =>
                 {
                     b.HasOne("Core.Database.Models.Group", "Group")
@@ -497,15 +410,6 @@ namespace Web.Migrations
                         .HasForeignKey("GroupId");
 
                     b.Navigation("Group");
-                });
-
-            modelBuilder.Entity("Core.Database.Models.Order", b =>
-                {
-                    b.HasOne("Core.Database.Models.Customer", "Customer")
-                        .WithMany("Orders")
-                        .HasForeignKey("CustomerId");
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Core.Database.Models.Product", b =>
@@ -535,21 +439,6 @@ namespace Web.Migrations
                     b.Navigation("Products");
 
                     b.Navigation("Roles");
-                });
-
-            modelBuilder.Entity("Core.Database.Models.Customer", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("Core.Database.Models.Order", b =>
-                {
-                    b.Navigation("details");
-                });
-
-            modelBuilder.Entity("Core.Database.Models.Product", b =>
-                {
-                    b.Navigation("details");
                 });
 
             modelBuilder.Entity("Core.Database.Models.Role", b =>

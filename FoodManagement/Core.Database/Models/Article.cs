@@ -14,8 +14,6 @@ namespace Core.Database.Models
         public string Title { get; set; } = "";
         [MaxLength(50)]
         public string? Picture { get; set; }
-        [MaxLength(500)]
-        public string? Intro { get; set; }
         public string? Content { get; set; }
         public Guid? CreatedBy { get; set; }
         public DateTime? CreatedOn { get; set; }

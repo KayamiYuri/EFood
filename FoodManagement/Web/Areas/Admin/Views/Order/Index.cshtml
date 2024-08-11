@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "Đơn đặt hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Admin.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">@ViewBag.Title</h1>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body table-responsive">
+        <table id="items" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Tên khách hàng</th>
+                    <th>Ngày đặt</th>
+                    <th>Ngày thanh toán</th>
+                    <th style="width: 40px"></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@section Css {
+    <link href="/plugins/datatables-bs4/css/datatables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="/plugins/sweetarlert2/sweetalert2.min.css" rel="stylesheet" />
+    <style>
+        div.dt-buttons {
+            float: right;
+        }
+    </style>
+}
+@section Js {
+    <script src="/plugins/datatables/jquery.datatables.min.js"></script>
+    <script src="/plugins/datatables-bs4/js/datatables.bootstrap4.min.js"></script>
+    <script src="/plugins/toastr/toastr.min.js"></script>
+    @* <script src="/plugins/sweetarlert2/sweetalert2.all.min.js"></script> *@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/plugins/moment/moment.min.js"></script>   
+    <script>
+        $(function () {
+            var items = $("#items").DataTable({
+                "dom": "Blfrtip",
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "/Admin/Order/GetList",
+                    "type": "POST",
+                    "dataType": "json",
+                    "error": function (xhr, error, code) {
+                        toastr.error("Lỗi: Không có quyền truy cập chức năng này.");
+                    }
+                },
+                "columns": [
+                    {
+                        "data": null, "render": function (data, type, row, meta) { return meta.row + 1; }
+                    },
+                    {
+                        //Link chi tiet don hang
+                        "render": function (data, type, row, meta) {
+                            return "<a href='/Admin/Order/Details?id="+ row.id +"'>"+ row.customerName +"</a>";
+                        }
+                    }, 
+                    {
+                        "data": "createdOn", "render": function (data, type, row, meta) {
+                            return moment(data).isValid() ? moment(data).format("DD/MM/YYYY") : "";
+                        }
+                    },
+                    {
+                        "data": "updatedOn", "render": function (data, type, row, meta) {
+                            return moment(data).isValid() ? moment(data).format("DD/MM/YYYY") : "Chưa thanh toán";
+                        }
+                    },
+                    {
+                        "render": function (data, type, row, meta) {
+                            let tool = '<div class="btn-group">' +
+                                '<a href="#" data-toggle="dropdown" class="list-icons-item text-dark" aria-expanded="false">' +
+                                '<i class="fas fa-sort-amount-down"></i>' +
+                                '</a>' +
+                                '<div class="dropdown-menu" role="menu" style="">' +
+                                '<a class="dropdown-item text-primary btnEdit" href="#" data-id="' + row.id + '"><i class="fas fa-pencil-alt mr-3"></i>Cập nhật</a>' +
+                                '<a class="dropdown-item text-danger btnDelete "  href="#" data-id="' + row.id + '"><i class="fas fa-trash mr-3"></i>Xóa</a>' +
+                                '</div>' +
+                                '</div>';
+                            return tool;
+                        }
+                    }
+                ]
+            });
+            $(document).on('click', "a.btnDelete", function () {
+                let id = $(this).data("id");
+                Swal.fire({
+                    title: 'Bạn chắc không?',
+                    text: "Xóa không thể phục hồi được !",
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        $.get("/Admin/Order/Delete",
+                            {
+                                id: id
+                            }, function (data) {
+                                if (data == true) {
+                                    toastr.success('Thông báo: Xóa đơn hàng thành công.');
+                                    items.ajax.reload();
+                                } else {
+                                    toastr.error('Lỗi: Kiểm tra lại ràng buộc toàn vẹn của đơn hàng.')
+                                }
+                            }).fail(function () {
+                                toastr.error("Lỗi: Không có quyền truy cập chức năng này.");
+                            })
+                    }
+                })
+            })
+        });
+    </script>
+}

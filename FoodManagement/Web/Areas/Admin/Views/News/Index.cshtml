@@ -1,0 +1,237 @@
+﻿@{
+    ViewData["Title"] = "Tin tức";
+    Layout = "~/Areas/Admin/Views/Shared/_Admin.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">@ViewBag.Title</h1>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body table-responsive">
+        <table id="items" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Tiêu đề</th>                   
+                    <th>Ngày tạo</th>
+                    <th style="width: 40px"></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">@ViewBag.Title</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="Item">
+                    <input type="hidden" id="Id" name="Id" />
+                    <div class="form-group">
+                        <label for="Title">Tiêu đề</label>
+                        <input type="text" class="form-control" id="Title" name="Title" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Picture">Hình Minh Hoa</label>
+                        <input type="file" class="form-control" id="Picture" name="Picture" />
+                        <img id="news-picture" style="display: none" src="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Description">Mô tả</label>
+                        <textarea class="form-control" id="Description" name="Description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="KeyWord">Từ khóa</label>
+                        <input type="text" class="form-control" id="KeyWord" name="KeyWord" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Content">Nội dung</label>
+                        <textarea class="form-control summernote" id="Content" name="Content"></textarea>
+                    </div>                    
+                </form>
+            </div>  
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary btnSave">Lưu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+@section Css{
+    <link href="/plugins/datatables-bs4/css/datatables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <link href="/plugins/summernote/summernote.min.css" rel="stylesheet" />
+    <style>
+        div.dt-buttons {
+            float: right;
+        }        
+    </style>
+}
+@section Js{
+    <script src="/plugins/datatables/jquery.datatables.min.js"></script>
+    <script src="/plugins/datatables-bs4/js/datatables.bootstrap4.min.js"></script>
+    <script src="/plugins/datatables-buttons/js/datatables.buttons.min.js"></script>
+    <script src="/plugins/toastr/toastr.min.js"></script>
+    <script src="/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/plugins/moment/moment.min.js"></script>
+    <script src="/plugins/summernote/summernote.min.js"></script>
+    <script>
+        $(function () {
+            $(".summernote").summernote({
+                callbacks: {
+                    onImageUpload: function (files, editor, welEditable) {
+                        sendFile(files[0], editor, welEditable);
+                    }
+                }
+            });
+            function sendFile(file, editor, welEditable) {               
+                data = new FormData();
+                data.append("Picture", file);
+                $.ajax({
+                    data: data,
+                    type: "POST",
+                    url: "/Admin/News/UploadPicture", // Luu Hinh Anh Vao Thu muc News
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (url) {
+                        var image = $('<img>').attr('src', url);
+                        $('.summernote').summernote("insertNode", image[0]);
+                    }
+                });
+            }
+            var items = $("#items").DataTable({
+                "dom": "Blfrtip",
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "/Admin/News/GetList",
+                    "type": "POST",
+                    "dataType": "json",
+                    "error": function (xhr, error, code) {
+                        toastr.error("Lỗi: Không có quyền truy cập chức năng này.");
+                    }
+                },
+                "columns": [
+                    {
+                        "data": null, "render": function (data, type, row, meta) { return meta.row + 1; }
+                    },
+                    {
+                        "data": "title"
+                    },
+                    {
+                        "data": "createdOn", "render": function (data, type, row, meta) {
+                            return moment(data).isValid() ? moment(data).format("DD/MM/YYYY") : "Chưa xác định";
+                        }
+                    },
+                    {
+                        "render": function (data, type, row, meta) {
+                            let tool = '<div class="btn-group">' +
+                                '<a href="#" data-toggle="dropdown" class="list-icons-item text-dark" aria-expanded="false">' +
+                                '<i class="fas fa-sort-amount-down"></i>' +
+                                '</a>' +
+                                '<div class="dropdown-menu" role="menu" style="">' +
+                                '<a class="dropdown-item text-primary btnEdit" href="#" data-id="' + row.id + '"><i class="fas fa-pencil-alt mr-3"></i>Cập nhật</a>' +
+                                '<a class="dropdown-item text-danger btnDelete" href="#" data-id="' + row.id + '"><i class="fas fa-trash mr-3"></i>Xóa</a>' +
+                                '</div>' +
+                                '</div>';
+                            return tool;
+                        }
+                    }
+                ],
+                "buttons": [
+                    {
+                        text: '<i class="fa fa-plus mr-2"></i>Thêm tin tức',
+                        className: 'btn btn-info pb-1',
+                        action: function (e, dt, node, config) {
+                            $("#modal-default form#Item")[0].reset();
+                            $("#Id").val("");
+                            $(".summernote").summernote('code', "");
+                            $("#news-picture").attr("src", '').hide();
+                            $("#modal-default").modal('show');
+                        }
+                    }
+                ]
+            });
+            $(document).on("click", "a.btnEdit", function () {
+                let id = $(this).data("id");
+                $.getJSON("/Admin/News/GetItem",
+                    {
+                        id: id
+                    }, function (item) {
+                        $("#Id").val(item.id);
+                        $("#Title").val(item.title);
+                        $("#news-picture").attr("src", item.picture).show();
+                        $("#Intro").summernote('code', item.intro);
+                        $("#Content").summernote('code', item.content);
+                        $("#KeyWord").val(item.keyWord); //Keyword
+                        $("#Description").val(item.description);
+                        $("#modal-default").modal('show');
+                    }).fail(function () {
+                        toastr.error("Lỗi: Không có quyền truy cập chức năng này.");
+                    });
+            })
+            
+            $(".btnSave").click(function () {
+                var form = $("#Item")[0];
+                var formData = new FormData(form);
+                var file = $('input[type=file]')[0].files[0];
+                formData.append("Picture", file);
+                $.ajax({
+                    data: formData,
+                    url: "/Admin/News/Save",
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    success: function (item) {
+                        $("#modal-default").modal('hide');
+                        toastr.success("Thông báo: Lưu thành công !!");
+                        items.ajax.reload();
+                    },
+                    error: function () {
+                        toastr.error("Lỗi: Không có quyền truy cập chức năng này.");
+                    }
+                })
+            })
+            $(document).on('click', "a.btnDelete", function () {
+                let id = $(this).data("id");
+                Swal.fire({
+                    title: 'Bạn chắc không?',
+                    text: "Xóa không thể phục hồi được !",
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        $.get("/Admin/News/Delete",
+                            {
+                                id: id
+                            }, function (data) {
+                                if (data == true) {
+                                    toastr.success('Thông báo: Xóa tin tức thành công.');
+                                    items.ajax.reload();
+                                } else {
+                                    toastr.error('Lỗi: Không xác định.')
+                                }
+                            }).fail(function () {
+                                toastr.error("Lỗi: Không có quyền truy cập chức năng này.");
+                            })
+                    }
+                })
+            })
+        });
+    </script>
+}
