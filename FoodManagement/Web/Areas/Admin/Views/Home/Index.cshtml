@@ -1,6 +1,154 @@
 ﻿@{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Admin";
     Layout = "~/Areas/Admin/Views/Shared/_Admin.cshtml";
 }
 
-    
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+
+                <!-- Profile Image -->
+                <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                            <img class="profile-user-img img-fluid img-circle" src="/img/users/avatar (1).png" alt="User profile picture">
+                        </div>
+
+                        <h3 class="profile-username text-center">Nguyen Ngoc Phuc</h3>
+
+                        <p class="text-muted text-center">Software Engineer</p>
+
+                        <ul class="list-group list-group-unbordered mb-3">
+                            <li class="list-group-item">
+                                <b>Followers</b> <a class="float-right">1,322</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Following</b> <a class="float-right">543</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Friends</b> <a class="float-right">13,287</a>
+                            </li>
+                        </ul>
+
+                        <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+                <!-- About Me Box -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">About Me</h3>
+                        
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <p class="text-muted">Full Stack Developer</p>
+                        <p>Sinh Vien DLA</p>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="mb-2">Danh Muc</h5>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 col-12">
+                                <a href="@Url.Action("Index", "Category", new {area  = "Admin"})">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+                                    
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Chyen muc</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>  
+
+                            <div class="col-md-4 col-sm-6 col-12">
+                                <a href="@Url.Action("Index", "Product", new {area  = "Admin"})">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-info"><i class="fab fa-product-hunt"></i></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">San Pham</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="col-md-4 col-sm-6 col-12">
+                                <a href="@Url.Action("Index", "Category", new {area  = "Admin"})">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Tin Tuc</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <h5 class="mb-2">Nghiep Vu</h5>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 col-12">
+                                <a href="@Url.Action("Index", "Order", new {area  = "Admin"})">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-info"><i class="far fa-copy"></i></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Don Dat Hang</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                          
+                        </div>
+                        <h5 class="mb-2">Thong Ke</h5>
+                        <div class="col-md-4 col-sm-6 col-12">
+                            <a href="@Url.Action("IncomeByMonth", "Report", new {area  = "Admin"})">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-info"><i class="fas fa-chart-pie"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Doanh Thu Theo Thang</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <h5 class="mb-2">He Thuong</h5>
+                        <div class="col-md-4 col-sm-6 col-12">
+                            <a href="@Url.Action("Index", "Group", new {area  = "Admin"})">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-info"><i class="fas fa-users"></i></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Nhom Quyen</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-4 col-sm-6 col-12">
+                            <a href="@Url.Action("Index", "Member", new {area  = "Admin"})">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-info"><i class="fas fa-user"></i></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Thanh Vien</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
