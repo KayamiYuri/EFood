@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Doanh thu theo tháng";
+    Layout = "~/Areas/Admin/Views/Shared/_Admin.cshtml";
+}
+
+<!-- BAR CHART -->
+<div class="card card-success">
+    <div class="card-header">
+        <h3 class="card-title">@ViewData["Title"]</h3>
+
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool btnLeft">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <span id="year"></span>
+            <button type="button" class="btn btn-tool btnRight">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="chart">
+            <canvas id="barChart" style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
+        </div>
+    </div>
+    <!-- /.card-body -->
+</div>
+<!-- /.card -->
+@section Js {
+    <script src="/plugins/chart.js/chart.min.js"></script>
+    <script>
+        $(function () {
+            var d = new Date();
+            var currYear = d.getUTCFullYear();
+            drawChart(currYear);
+            //click giảm
+            $(".btnLeft").click(function () {
+                drawChart(--currYear);
+            })
+            //tăng (năm)
+            $(".btnRight").click(function () {
+                drawChart(++currYear);
+            })
+
+            function drawChart(year) {
+                $("#year").html(currYear);
+                $.getJSON("/Admin/Report/getIncomeByMonth", {
+                    year: year
+                }, function (results) {
+                    var areaChartData = {
+                        labels: [],
+                        // style biểu đồ
+                        datasets: [
+                            {
+                                label: 'Doanh thu',
+                                backgroundColor: 'rgba(60,141,188,0.9)',
+                                borderColor: 'rgba(60,141,188,0.8)',
+                                pointRadius: false,
+                                pointColor: '#3b8bba',
+                                pointStrokeColor: 'rgba(60,141,188,1)',
+                                pointHighlightFill: '#fff',
+                                pointHighlightStroke: 'rgba(60,141,188,1)',
+                                data: []
+                            }
+                        ]
+                    }
+                    areaChartData.labels = [];
+                    areaChartData.datasets[0].data = [];
+                    results.forEach((item) => {
+                        //tháng
+                        areaChartData.labels.push(item.months);
+                        //doanh thu
+                        areaChartData.datasets[0].data.push(item.incomes);
+                    });
+
+                    var barChartCanvas = $('#barChart').get(0).getContext('2d')
+                    var barChartData = $.extend(true, {}, areaChartData)
+                    var temp0 = areaChartData.datasets[0]
+                    barChartData.datasets[0] = temp0
+
+                    var barChartOptions = {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        datasetFill: false
+                    }
+
+                    new Chart(barChartCanvas, {
+                        type: 'bar',
+                        data: barChartData,
+                        options: barChartOptions
+                    })
+                });
+            }
+        });
+    </script>
+}
