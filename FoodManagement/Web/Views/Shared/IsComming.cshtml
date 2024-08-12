@@ -1,0 +1,57 @@
+﻿<!-- Products Start -->
+<div class="container-fluid product py-5 my-5">
+    <div class="container py-5">
+        <div class="section-title text-center mx-auto "style="max-width: 500px;">
+            <p class="fs-5 fw-medium fst-italic text-primary">Sap Ra Mat</p>
+            <h1 class="display-6">Cac Loai Tra Sap Ra Mat</h1>
+        </div>
+        <div class="owl-carousel wow fadeInUp IsComming" data-wow-delay="0.5s">
+        </div>
+    </div>
+</div>
+<!-- Products End -->
+<script>
+    $(function () {
+        $.getJSON("/Product/GetIsComming", {},
+            function (products) {
+                products.forEach((product) => {
+                    $(".IsComming").append('<a href="/Product/Details?id=' + product.id + '" class="d-block product-item rounded">' +
+                        '<img src="' + product.picture + '" alt="">' +
+                        '<div class="bg-white shadow-sm text-center p-4 position-relative mt-n5 mx-4">' +
+                        '<h4 class="text-primary">' + product.title + '</h4>' +
+                        '<span class="text-body">' + product.intro + '</span>' +
+                        '</div>' +
+                        '</a>');
+                });
+
+                // Product carousel
+                $(".IsComming").owlCarousel({
+                    autoplay: true,
+                    smartSpeed: 1000,
+                    margin: 25,
+                    loop: true,
+                    center: true,
+                    dots: false,
+                    nav: true,
+                    navText: [
+                        '<i class="bi bi-chevron-left"></i>',
+                        '<i class="bi bi-chevron-right"></i>'
+                    ],
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        576: {
+                            items: 1
+                        },
+                        768: {
+                            items: 2
+                        },
+                        992: {
+                            items: 3
+                        }
+                    }
+                });
+            })
+    });
+</script>

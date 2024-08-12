@@ -18,6 +18,7 @@ namespace Core.Database.Models
         public string? Intro { get; set; }
         public string? Content { get; set; }
         public double? Price { get; set; }
+        public bool? IsComming { get; set; } //San pham sap ra mat 
         [ForeignKey("CategoryId")]
         public Guid? CategoryId { get; set; }
         public Category? Category { get; set; }
